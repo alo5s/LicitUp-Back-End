@@ -67,7 +67,6 @@ def mapa():
         return jsonify({"error": str(ex)}), 500
     
 @mapa_bp.route('/mapa/licitaciones/<id>/pagina=<int:page>',  methods=["GET"])
-#@cache.cached(timeout=600)  # Cachea durante 10 minutos (FALLO MONITORIAR ESTA LIÑA)
 def mapa_licitaciones(id, page):
     try:
         # Obtén el número de página de la consulta desde la URL

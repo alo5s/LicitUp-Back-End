@@ -45,8 +45,7 @@ def formatear_fecha(fecha_str):
     except ValueError:
         return None
 
-@licitaciones_bp.route("/licit",  methods=["POST"])
-#@cache.cached(timeout=600)  
+@licitaciones_bp.route("/licit",  methods=["POST"])  
 def listar_licitaciones():
     try:
         data = request.json  # Obtiene los datos del cuerpo de la solicitud en formato JSON
@@ -81,7 +80,6 @@ def listar_licitaciones():
 
 
 @licitaciones_bp.route("/buscar", methods=["POST"])
-@cache.cached(timeout=600)  
 def buscar_licitaciones():
     try:
         data = request.json  # Obtiene los datos del cuerpo de la solicitud en formato JSON

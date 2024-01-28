@@ -56,11 +56,14 @@ class ProfileModel:
                     """
                     cursor.executemany(sql_3, [(id_usuario, i) for i in ls_3])
 
-                if numero_lis and monto_minimo and monto_maximo:
+
+                if numero_lis is not None and monto_minimo is not None and monto_maximo is not None:
                     sql_4 = """
                     INSERT INTO parametros_perfil (usuario_id, numero_licitacion, monto_min, monto_max) VALUES (%s, %s, %s, %s)
                     """
                     cursor.executemany(sql_4, [(id_usuario, numero_lis, monto_minimo, monto_maximo)])
+                else:
+                    print("Alguno de los valores es None o equivalente a False.")
 
 
                 conn.commit()

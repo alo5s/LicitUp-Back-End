@@ -11,7 +11,7 @@ def get_db_connection():
             host=os.environ.get('POSTSQLHOST'),
             user=os.environ.get('POSTSQLUSER'),
             password=os.environ.get('POSTSQLPASSWORD'),
-            database=os.environ.get('POSTSQLDATABASE'),
+            database=os.environ.get('POSTGRESQLDATABASE'),
             port=os.environ.get('POSTSQLPORT'),
         )
         return db_connection

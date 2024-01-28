@@ -2,7 +2,6 @@
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import Blueprint, jsonify, request
 from datetime import datetime
-from .. import cache # importar 'cache' desde el módulo principal
 # Model
 from ..models.home import HomeModel, AdminModel
 
@@ -11,7 +10,6 @@ admin_bp = Blueprint('admin', __name__)
 # li = licitaciones
 
 @admin_bp.route('/admin',  methods=["POST"])
-@cache.cached(timeout=60)  # Cachea la respuesta durante 60 segundos
 def lst_usuarios():
     try:
         data = AdminModel().ls_usuario()  # Agrega paréntesis para llamar al método
@@ -39,7 +37,6 @@ def usuario():
 
 
 @admin_bp.route("/admin/estado", methods=["POST"])
-@cache.cached(timeout=60)
 @jwt_required()
 def estado():
     try:

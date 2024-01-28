@@ -16,6 +16,7 @@ app.config.from_object(ProductionConfig)
 jwt = JWTManager(app)
 
 # Configura CORS para permitir solicitudes desde el cliente (Front-end)
+
 CORS(app, resources={r"/api/v1/*": {"origins": ["http://localhost:5173", "https://licitup-v2.onrender.com"]}})
 
 # Inicializa la caché

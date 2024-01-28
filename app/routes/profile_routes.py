@@ -1,7 +1,6 @@
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import Blueprint, jsonify, request
 from datetime import datetime
-from .. import cache
 # Model
 from ..models.profile import ProfileModel
 
@@ -10,7 +9,6 @@ profile_bp = Blueprint('profile', __name__)
 
 # Endpoind Datos del cuestionar para el perfil de usario
 @profile_bp.route('/cuestionario',  methods=["GET"])
-@cache.cached(timeout=600)  
 def datacustionaro():
     """
     Endpoint para obtener lo que necesito el clien para el cuestionario del perfil de usuario.
@@ -26,7 +24,6 @@ def datacustionaro():
 
 
 @profile_bp.route('/profile/datos',  methods=["POST"])
-@cache.cached(timeout=600)  
 @jwt_required()
 def post_profile_datos():
     """
@@ -48,11 +45,9 @@ def post_profile_datos():
         # Otros Paramatremos
         numero_lis, monto_minimo, monto_maximo = data['ls_parametos'].values()
 
-
-        print(numero_lis)
         # Guardar datos
         insertaDatosPerfil = ProfileModel.addDataPerfil(id_usario, ls_comuna, ls_ps_ss, ls_codificacións, numero_lis, monto_minimo, monto_maximo)
-
+        
         # Asegurarse de que se han proporcionado datos
         if not data:
             abort(400, description="No se proporcionaron datos en la solicitud.")
