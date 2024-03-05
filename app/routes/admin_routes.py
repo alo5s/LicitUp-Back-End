@@ -49,3 +49,15 @@ def estado():
         return jsonify(response_data), 200
     except Exception as ex:
         return jsonify({'error': 'Error al obtener licitaciones: ' + str(ex)}), 500
+
+
+
+@admin_bp.route('/admin/delete/usuario',  methods=["POST"])
+def delete_usuario():
+    data = request.json 
+    correo = data.get('correo')
+    affected_rows = AdminModel().delete_usuario(correo)
+    if affected_rows > 0:
+        return {'message': 'Listo'}, 201
+    else:
+        return {'message': 'Falló'}, 200

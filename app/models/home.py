@@ -63,3 +63,33 @@ class AdminModel:
         finally:
             conn.close()
         return licitacion_id
+
+    @staticmethod
+    def delete_usuario(correo):
+        try:
+            conn = get_db_connection()
+            with conn.cursor() as cursor:
+                # Borramos todas las relaciones del usuario
+                sql_delete_relaciones = """
+                    DELETE FROM seguimiento WHERE id_usuario IN (SELECT id FROM usuarios WHERE correo = %s);
+                    DELETE FROM nombre_producto_servicio_favorita WHERE usuario_id IN (SELECT id FROM usuarios WHERE correo = %s);
+                    DELETE FROM nombre_comuna_favorita WHERE usuario_id IN (SELECT id FROM usuarios WHERE correo = %s);
+                    DELETE FROM parametros_perfil WHERE usuario_id IN (SELECT id FROM usuarios WHERE correo = %s);
+                    DELETE FROM codificaciones_perfil WHERE usuario_id IN (SELECT id FROM usuarios WHERE correo = %s);
+                """
+                cursor.execute(sql_delete_relaciones, (correo, correo, correo, correo, correo))
+                # Borramos al usuario
+                sql_delete_usuario = "DELETE FROM usuarios WHERE correo = %s"
+                cursor.execute(sql_delete_usuario, (correo,))
+                # Commit de la transacción
+                conn.commit()
+                return True
+        except Exception as ex:
+            # Si hay algún error, hacemos rollback de la transacción
+            if conn:
+                conn.rollback()
+            print("Error al borrar usuario:", ex)
+            return False
+        finally:
+            if conn:
+                conn.close()
