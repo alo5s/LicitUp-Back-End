@@ -59,7 +59,8 @@ class LicitacionesModel:
                 # Calcula el offset y limit para la paginación
                 offset = (pagina - 1) * elementos_por_pagina
                 limite = elementos_por_pagina
-
+                total_licitaciones = total_registros
+                #print("TOtal de licitacion :", total_registros)
                 # Aplica paginación solo si hay más elementos que los especificados en la página
                 if total_registros > offset:
                     sql += " LIMIT %s OFFSET %s"
@@ -75,7 +76,7 @@ class LicitacionesModel:
             raise Exception(ex)
         finally:
             conn.close()
-        return datos, total_registros
+        return datos, total_registros, total_licitaciones
     
     @staticmethod
     def srec(descriptive_name, codigo_externo):
@@ -92,12 +93,13 @@ class LicitacionesModel:
                     return []  # Si no se proporciona un criterio de búsqueda válido, devuelve una lista vacía.
 
                 data = cursor.fetchall()  # Obtener todas las filas que coincidan con la consulta
+                total_licitaciones = len(datos)
 
         except Exception as ex:
             raise Exception(ex)
         finally:
             conn.close()
-        return data
+        return data, total_licitaciones
     
     @staticmethod
     def detalle(id):
@@ -186,11 +188,11 @@ class LicitacionesModel:
                 # Obtén los resultados de la consulta
                 cursor.execute(sql, params)
                 licitaciones = cursor.fetchall()
-
+                total_licitaciones = len(licitaciones)
      
         except Exception as ex:
             raise Exception(ex)
         finally:
             conn.close()
     
-        return licitaciones
+        return licitaciones, total_licitaciones

@@ -58,7 +58,7 @@ def listar_licitaciones():
         # Estado el codigo numerico
         estado_numerico = estado_str(estado)
 
-        consulta, total_registros = LicitacionesModel().ts_2(pagina, elementos_por_pagina, estado_numerico, fecha_inicial, fecha_final, orden)
+        consulta, total_registros, total_licitaciones = LicitacionesModel().ts_2(pagina, elementos_por_pagina, estado_numerico, fecha_inicial, fecha_final, orden)
         data = []
         for row in consulta:
             formatted_row = {
@@ -71,8 +71,10 @@ def listar_licitaciones():
             data.append(formatted_row)
 
         # Calcula el número total de páginas
+        # print("total de licitacion :", total_licitaciones)
+
         total_paginas = -(-total_registros // elementos_por_pagina)  # Divide redondeando hacia arriba
-        return jsonify({'licitaciones_pagina': data, 'total_paginas': total_paginas}), 200
+        return jsonify({'licitaciones_pagina': data, 'total_paginas': total_paginas, "total_licitaciones": total_licitaciones }), 200
 
     except Exception as ex:
         return jsonify({'error': 'Error al obtener licitaciones: ' + str(ex)}), 500
@@ -95,8 +97,8 @@ def buscar_licitaciones():
 
         # Realizar la búsqueda en la base de datos según corresponda
        
-        consulta = LicitacionesModel().srec(descriptive_name, codigo_externo)
-        # print(consulta)
+        consulta, total_licitaciones = LicitacionesModel().srec(descriptive_name, codigo_externo)
+        print("total de licitacion :", total_licitaciones)
         data = []
         
         for row in consulta:
@@ -109,7 +111,7 @@ def buscar_licitaciones():
             }
             data.append(formatted_row)
         # print(data)
-        return jsonify({'licitaciones_pagina': data}), 200
+        return jsonify({'licitaciones_pagina': data,"total_licitaciones": total_licitaciones}), 200
 
     except Exception as ex:
         return jsonify({'error': 'Error al obtener licitaciones: ' + str(ex)}), 200
@@ -166,7 +168,7 @@ def asd_data_profile():
         current_user = get_jwt_identity()
         parametro_perfil = ProfileModel.DataPerfil(current_user)
 
-        consulta = LicitacionesModel().licitaciones_perfil(parametro_perfil, pagina)
+        consulta, total_licitaciones = LicitacionesModel().licitaciones_perfil(parametro_perfil, pagina)
     
         total_registros = len(consulta)
         
@@ -183,7 +185,7 @@ def asd_data_profile():
 
         # Calcula el número total de páginas
         total_paginas = -(-total_registros // 35)  # Divide redondeando hacia arriba
-        return jsonify({'licitaciones_pagina': data, 'total_paginas': total_paginas}), 200
+        return jsonify({'licitaciones_pagina': data, 'total_paginas': total_paginas, "total_licitaciones": total_licitaciones}), 200
 
     except Exception as ex:
         return jsonify({'error': 'Error al obtener licitaciones: ' + str(ex)}), 500
