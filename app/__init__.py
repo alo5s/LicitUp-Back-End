@@ -10,7 +10,7 @@ from flask_caching import Cache
 #app = Flask(__name__, template_folder='/app/static/')
 app = Flask(__name__)
 
-app.config.from_object(ProductionConfig)
+app.config.from_object(DevelopmentConfig)
 
 # Inicializa el JWTManager
 jwt = JWTManager(app)

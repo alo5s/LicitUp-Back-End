@@ -44,7 +44,7 @@ def post_profile_datos():
         ls_codificacións = data['ls_codificacións_fa']
         # Otros Paramatremos
         numero_lis, monto_minimo, monto_maximo = data['ls_parametos'].values()
-
+        print("Este es el valor numero_lis", numero_lis)
         # Guardar datos
         insertaDatosPerfil = ProfileModel.addDataPerfil(id_usario, ls_comuna, ls_ps_ss, ls_codificacións, numero_lis, monto_minimo, monto_maximo)
         
