@@ -18,7 +18,7 @@ class SegumientosModel:
                         SELECT l.id, l.CodigoExterno, l.CodigoEstado, l.Descriptive_name, l.Nombre_del_Organismo, 
                                l.Producto, l.Precio, l.Cantidad, l.FechaCreacion, l.FechaPublicacion, 
                                l.FechaCerrada, l.FechaDesierta, l.FechaRevocada, l.FechaSuspendido, 
-                               l.FechaAdjudicacion, u.ComunaUnidad, 
+                               l.FechaAdjudicacion, u.ComunaUnidad, l.FechaInicio, l.FechaFinal, l.FechaPubRespuestas,
                                o.id AS id_orden_compra, o.CodigoExterno AS CodigoExterno_Orden, 
                                o.CodigoEstado AS CodigoEstado_Orden, o.Descriptive_name AS Descriptive_name_Orden,
                                o.Nombre_del_Organismo AS Nombre_del_Organismo_Orden,

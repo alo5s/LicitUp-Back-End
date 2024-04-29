@@ -52,12 +52,13 @@ def listar_licitaciones():
         pagina = data.get('pagina', 1)
         elementos_por_pagina = int(data.get('elementos_por_pagina', 35))
         estado = data.get('estado')
-        fecha_inicial = data.get('fecha_inicial', None)
-        fecha_final = data.get('fecha_final', None)
+        fecha_final = data.get('fecha_inicial', None) 
+        fecha_inicial = data.get('fecha_final', None) 
         orden = data.get("formato_ordende", None)
         # Estado el codigo numerico
         estado_numerico = estado_str(estado)
-
+        print(f"feha inicial {fecha_inicial}")
+        print(f"fecha fin {fecha_final}")
         consulta, total_registros, total_licitaciones = LicitacionesModel().ts_2(pagina, elementos_por_pagina, estado_numerico, fecha_inicial, fecha_final, orden)
         data = []
         for row in consulta:
@@ -72,7 +73,7 @@ def listar_licitaciones():
 
         # Calcula el número total de páginas
         # print("total de licitacion :", total_licitaciones)
-
+        # print(data)
         total_paginas = -(-total_registros // elementos_por_pagina)  # Divide redondeando hacia arriba
         return jsonify({'licitaciones_pagina': data, 'total_paginas': total_paginas, "total_licitaciones": total_licitaciones }), 200
 
@@ -110,7 +111,7 @@ def buscar_licitaciones():
                 "fecha": formatear_fecha(row[4].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[4] else None
             }
             data.append(formatted_row)
-        # print(data)
+
         return jsonify({'licitaciones_pagina': data,"total_licitaciones": total_licitaciones}), 200
 
     except Exception as ex:
@@ -137,9 +138,10 @@ def licitaciones_datos_info(id):
         "FechaSuspendido": formatear_fecha(row[12].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[12] else None,
         "FechaAdjudicacion": formatear_fecha(row[13].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[13] else None,
         "ComunaUnidad": row[14],
-        
+        "FechaInicio": formatear_fecha(row[15].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[15] else None,
+        "FechaFinal": formatear_fecha(row[16].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[16] else None,
+        "FechaPubRespuestas": formatear_fecha(row[17].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[17] else None, 
         }
-    
     
     return jsonify({'detalle_li': data}), 200
 

@@ -102,7 +102,7 @@ def enviar_correo(destinatario):
     #xplantilla_html = '/templates/plantilla_correo.html'
     #cuerpo_mensaje = render_template(plantilla_html)
     #mensaje.attach(MIMEText(cuerpo_mensaje, 'html'))
-    cuerpo_mensaje = "Hola, este es un ejemplo de correo desde Python."
+    #cuerpo_mensaje = "#"
     mensaje.attach(MIMEText(cuerpo_mensaje, 'plain'))
 
     # Establecer la conexión con el servidor de correo

@@ -168,16 +168,19 @@ def lst_favorito_id():
                 "FechaSuspendido": formatear_fecha(row[13].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[13] else None,
                 "FechaAdjudicacion": formatear_fecha(row[14].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[14] else None,
                 "ComunaUnidad": row[15],
-                "id_orden_compra": row[16]
+                "FechaInicio": formatear_fecha(row[16].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[15] else None,
+                "FechaFinal": formatear_fecha(row[17].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[16] else None,
+                "FechaPubRespuestas": formatear_fecha(row[18].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[17] else None, 
+                "id_orden_compra": row[19]
             }
             licitaciones.append(formatted_row)
             # Si hay una orden de compra asociada, también la agregamos a la lista
-            if row[16] is not None:
+            if row[20] is not None:
                 orden_de_compra = {
-                    "id": row[16],
-                    "CodigoExterno": row[17],  # Podrías querer mostrar el CodigoExterno de la licitación relacionada
-                    "Estado": estado_or(int(row[18])),
-                    "Descriptive_name": row[19],
+                    "id": row[19],
+                    "CodigoExterno": row[21],  # CodigoExterno de la licitación relacionada
+                    "Estado": estado_or(int(row[22])),
+                    "Descriptive_name": row[23],
                     "Nombre_del_Organismo": row[20],
                     "FechaCreacion": formatear_fecha(row[21].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[21] else None,
                     "FechaEnvio": formatear_fecha(row[22].strftime("%a, %d %b %Y %H:%M:%S GMT")) if row[22] else None,
@@ -190,6 +193,7 @@ def lst_favorito_id():
         return jsonify({'licitaciones': licitaciones, 'ordenes_de_compra': ordenes_de_compra}), 200
     except Exception as ex:
         return jsonify({'error': 'Error al obtener licitaciones: ' + str(ex)}), 500
+
 
 
 # Ruta protegida para eleminar elementos a favoritos (requiere token JWT)

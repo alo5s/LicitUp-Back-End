@@ -70,7 +70,7 @@ class LicitacionesModel:
                 else:
                     datos = []
         
-                #print(sql)
+                #print(sql, params)
         
         except Exception as ex:
             raise Exception(ex)
@@ -93,7 +93,7 @@ class LicitacionesModel:
                     return []  # Si no se proporciona un criterio de búsqueda válido, devuelve una lista vacía.
 
                 data = cursor.fetchall()  # Obtener todas las filas que coincidan con la consulta
-                total_licitaciones = len(datos)
+                total_licitaciones = len(data)
 
         except Exception as ex:
             raise Exception(ex)
@@ -110,7 +110,7 @@ class LicitacionesModel:
                 sql = """
                     SELECT l.CodigoExterno, l.CodigoEstado ,l.Descriptive_name, l.Nombre_del_Organismo, l.Producto,
                            l.Precio, l.Cantidad, l.FechaCreacion, l.FechaPublicacion, l.FechaCerrada,
-                           l.FechaDesierta, l.FechaRevocada, l.FechaSuspendido, l.FechaAdjudicacion, u.ComunaUnidad
+                           l.FechaDesierta, l.FechaRevocada, l.FechaSuspendido, l.FechaAdjudicacion, u.ComunaUnidad, l.FechaInicio, l.FechaFinal, l.FechaPubRespuestas
                     FROM licitaciones l
                     INNER JOIN ubicaciones u ON l.id_ComunaUnidad = u.id
                     WHERE l.id = %s
